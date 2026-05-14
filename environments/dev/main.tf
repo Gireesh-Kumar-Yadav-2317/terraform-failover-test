@@ -44,3 +44,37 @@ module "iam" {
   environment  = var.environment
   tags         = var.tags
 }
+
+module "alb" {
+  source                = "../../modules/alb"
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_id                = module.vpc.vpc_id
+  alb_security_group_id = module.security-groups.alb_security_group_id
+  public_subnet_ids     = module.vpc.public_subnet_ids
+  health_check_path     = "/health"
+  tags                  = var.tags
+}
+
+
+module "autoscaling" {
+  source = "../../modules/autoscaling"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  private_subnet_ids = module.vpc.private_subnet_ids
+
+  ec2_security_group_id = module.security-groups.ec2_security_group_id
+  target_group_arn      = module.alb.target_group_arn
+
+  instance_profile_name = module.iam.ec2_instance_profile_name
+
+  instance_type = var.instance_type
+
+  desired_capacity = 2
+  min_size         = 2
+  max_size         = 4
+
+  tags = var.tags
+}

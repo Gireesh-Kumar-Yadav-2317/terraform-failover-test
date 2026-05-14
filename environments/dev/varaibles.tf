@@ -44,3 +44,8 @@ variable "allowed_ssh_cidr_blocks" {
   type    = list(string)
   default = []
 }
+
+variable "instance_type" {
+  type    = string
+  default = "t3.micro"
+}

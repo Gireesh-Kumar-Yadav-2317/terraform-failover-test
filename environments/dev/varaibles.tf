@@ -38,3 +38,9 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+
+variable "allowed_ssh_cidr_blocks" {
+  type    = list(string)
+  default = []
+}

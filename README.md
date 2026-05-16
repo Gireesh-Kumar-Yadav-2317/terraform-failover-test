@@ -1,8 +1,8 @@
-AWS Failover Testing – Runbook / README
+**AWS Failover Testing – Runbook / README**
 
 This document provides step-by-step instructions to perform **failover testing** for an application deployed on AWS using an Application Load Balancer (ALB), Auto Scaling Group (ASG), and EC2 instances in private subnets.
 
-Architecture Overview
+**Architecture Overview**
 
  Application Load Balancer (ALB)
  Target Group: `<target_group_arn>`
@@ -10,7 +10,7 @@ Architecture Overview
  EC2 Instances in private subnets
  NAT Gateway (required for package installation)
 
-Prerequisites
+**Prerequisites**
 
 Ensure the following before testing:
 
@@ -19,7 +19,7 @@ Ensure the following before testing:
  Auto Scaling Group is in **InService state**
  NAT Gateway is configured if instances are in private subnet
 
-ALB URL
+**ALB URL**
 
 http://<alb_dns_name>
 
@@ -54,7 +54,7 @@ Example output:
 
   OK - ip-10-0-x-x
 
-Step 3: Monitor Target Health (Terminal 2)
+**Step 3: Monitor Target Health (Terminal 2)**
 
 watch -n 5 '
 aws elbv2 describe-target-health \
@@ -65,7 +65,7 @@ aws elbv2 describe-target-health \
 '
 
 
-Step 4: Monitor Auto Scaling Group (Terminal 3)
+**Step 4: Monitor Auto Scaling Group (Terminal 3)**
 
 watch -n 5 '
 aws autoscaling describe-auto-scaling-groups \
@@ -75,7 +75,7 @@ aws autoscaling describe-auto-scaling-groups \
   --output table
 '
 
-Step 5: Simulate Failure (Terminate Instance)
+**Step 5: Simulate Failure (Terminate Instance)**
 
 Choose one instance from target group and terminate it:
 
@@ -84,7 +84,7 @@ aws ec2 terminate-instances \
   --region <region>
 
 
-Step 6: Observe Failover Behavior
+**Step 6: Observe Failover Behavior**
 
 During failure:
 
@@ -117,7 +117,7 @@ Step 8: End Test
 Stop all monitoring:
 
 
-Success Criteria
+**Success Criteria**
 
 Failover test is successful if:
 
@@ -133,7 +133,7 @@ Failover test is successful if:
 * Ensure health check path is `/`
 
 
-Placeholders Used
+**Placeholders Used**
 
 * `<alb_dns_name>`
 * `<target_group_arn>`

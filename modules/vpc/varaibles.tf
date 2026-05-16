@@ -54,6 +54,6 @@ variable "tags" {
 variable "enable_nat_gateway" {
   description = "Whether to create a NAT Gateway for the private subnets"
   type        = bool
-  default     = false
+  default     = true
 
 }
